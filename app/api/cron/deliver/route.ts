@@ -48,14 +48,6 @@ export async function GET(req: Request) {
   }
 
   // 2. Dead Man's Switch — check overdue switches
-  const switches = await prisma.deadManSwitch.findMany({
-    where: { isTriggered: false },
-    include: { 
-      // @ts-ignore — relation added in schema
-    },
-  })
-
-  // Actually query users with DMS
   const dmsUsers = await prisma.deadManSwitch.findMany({ where: { isTriggered: false } })
 
   for (const dms of dmsUsers) {

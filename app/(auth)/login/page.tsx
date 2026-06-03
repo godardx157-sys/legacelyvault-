@@ -1,13 +1,22 @@
 // app/(auth)/login/page.tsx
 'use client'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
+function AuthError() {
+  const params = useSearchParams()
+  if (!params.get('error')) return null
+  return (
+    <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+      Erreur de connexion. Vérifiez vos identifiants.
+    </div>
+  )
+}
+
 export default function LoginPage() {
   const router = useRouter()
-  const params = useSearchParams()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -38,11 +47,9 @@ export default function LoginPage() {
         </div>
 
         <div className="paper-card rounded-2xl p-8">
-          {params.get('error') && (
-            <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
-              Erreur de connexion. Vérifiez vos identifiants.
-            </div>
-          )}
+          <Suspense>
+            <AuthError />
+          </Suspense>
           {error && (
             <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">{error}</div>
           )}

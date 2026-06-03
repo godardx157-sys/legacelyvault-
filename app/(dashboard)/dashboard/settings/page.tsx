@@ -35,7 +35,6 @@ export default async function SettingsPage() {
       {/* Dead Man's Switch */}
       <DeadManSwitchSettings
         dms={dms}
-        userId={session!.user.id}
         isPro={(user?.plan ?? 'FREE') !== 'FREE'}
       />
     </div>
