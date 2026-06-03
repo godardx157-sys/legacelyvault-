@@ -1,0 +1,131 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    String    @id @default(cuid())
+  name                  String?
+  email                 String    @unique
+  emailVerified         DateTime?
+  image                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  // Stripe
+  stripeCustomerId      String?   @unique
+  stripeSubscriptionId  String?   @unique
+  stripePriceId         String?
+  stripeCurrentPeriodEnd DateTime?
+  // Plan
+  plan                  Plan      @default(FREE)
+  // Relations
+  accounts              Account[]
+  sessions              Session[]
+  capsules              Capsule[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  @@unique([identifier, token])
+}
+
+model Capsule {
+  id          String        @id @default(cuid())
+  userId      String
+  title       String
+  message     String        @db.Text
+  mediaUrls   String[]      // Cloudinary URLs
+  deliverAt   DateTime?     // Scheduled delivery date (null = on death)
+  triggerType TriggerType   @default(SCHEDULED)
+  status      CapsuleStatus @default(DRAFT)
+  isEncrypted Boolean       @default(false)
+  encryptKey  String?       // hashed passphrase for extra encryption
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  sentAt      DateTime?
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipients  Recipient[]
+  checkIns    CheckIn[]
+}
+
+model Recipient {
+  id        String   @id @default(cuid())
+  capsuleId String
+  name      String
+  email     String
+  phone     String?
+  relation  String?  // "daughter", "best friend", etc.
+  createdAt DateTime @default(now())
+  capsule   Capsule  @relation(fields: [capsuleId], references: [id], onDelete: Cascade)
+}
+
+model CheckIn {
+  id        String   @id @default(cuid())
+  capsuleId String
+  userId    String
+  checkedAt DateTime @default(now())
+  capsule   Capsule  @relation(fields: [capsuleId], references: [id], onDelete: Cascade)
+}
+
+// For "dead man's switch" — if user doesn't check in for X days, trigger delivery
+model DeadManSwitch {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  intervalDays    Int      @default(180) // check-in interval
+  lastCheckIn     DateTime @default(now())
+  warningsSent    Int      @default(0)
+  isTriggered     Boolean  @default(false)
+  triggeredAt     DateTime?
+  createdAt       DateTime @default(now())
+}
+
+enum Plan {
+  FREE
+  PRO
+  ETERNAL
+}
+
+enum TriggerType {
+  SCHEDULED   // Deliver on a specific date
+  DEADMAN     // Deliver if user stops checking in (dead man's switch)
+}
+
+enum CapsuleStatus {
+  DRAFT
+  SEALED     // Locked, waiting for trigger
+  DELIVERED
+  FAILED
+}
