@@ -6,14 +6,13 @@ import { formatDate } from '@/lib/utils'
 
 interface DMSData {
   intervalDays: number
-  lastCheckIn: Date
+  lastCheckIn: Date | string
   warningsSent: number
   isTriggered: boolean
 }
 
 interface Props {
   dms: DMSData | null
-  userId: string
   isPro: boolean
 }
 

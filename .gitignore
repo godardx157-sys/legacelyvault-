@@ -1,2 +1,7 @@
 node_modules
 .vercel
+.next
+*.tsbuildinfo
+.env
+.env.local
+.env.production.local
