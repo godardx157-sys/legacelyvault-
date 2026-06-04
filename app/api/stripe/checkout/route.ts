@@ -20,12 +20,16 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Plan gratuit, pas de checkout requis' }, { status: 400 })
   }
 
-  const checkoutSession = await createCheckoutSession(
-    session.user.id,
-    session.user.email,
-    planConfig.priceId,
-    plan
-  )
-
-  return NextResponse.json({ url: checkoutSession.url })
+  try {
+    const checkoutSession = await createCheckoutSession(
+      session.user.id,
+      session.user.email,
+      planConfig.priceId,
+      plan
+    )
+    return NextResponse.json({ url: checkoutSession.url })
+  } catch (err) {
+    console.error('[Stripe checkout error]', err)
+    return NextResponse.json({ error: 'Erreur Stripe : ' + (err instanceof Error ? err.message : String(err)) }, { status: 500 })
+  }
 }
