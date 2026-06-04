@@ -1,10 +1,10 @@
 // app/api/stripe/webhook/route.ts
-export const dynamic = 'force-dynamic'
-
 import { NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
 import { prisma } from '@/lib/prisma'
 import Stripe from 'stripe'
+
+export const dynamic = 'force-dynamic'
 
 export async function POST(req: Request) {
   const body = await req.text()
