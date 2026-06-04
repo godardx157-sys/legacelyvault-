@@ -14,7 +14,7 @@ export default async function BillingPage() {
   const planConfig = PLANS[currentPlan]
 
   return (
-    <div className="max-w-2xl mx-auto animate-fade-in space-y-8">
+    <div className="max-w-2xl mx-auto animate-fade-in space-y-6 md:space-y-8">
       {/* Current plan */}
       <div className="paper-card rounded-2xl p-8">
         <h2 className="font-display text-2xl text-vault-800 mb-6">Votre abonnement</h2>
@@ -33,7 +33,7 @@ export default async function BillingPage() {
         </div>
 
         {/* Limits */}
-        <div className="grid grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-3 gap-2 md:gap-3 mb-6">
           {[
             { label: 'Capsules', value: planConfig.capsules === Infinity ? '∞' : planConfig.capsules },
             { label: 'Médias/capsule', value: planConfig.mediaPerCapsule === 0 ? 'Aucun' : planConfig.mediaPerCapsule },
@@ -63,7 +63,7 @@ export default async function BillingPage() {
             return (
               <div key={planKey} className={`paper-card rounded-2xl p-6 ${planKey === 'PRO' ? 'border-2 border-gold-300' : ''}`}>
                 {planKey === 'PRO' && <span className="text-xs px-2 py-0.5 rounded-full bg-gold-100 text-gold-700 border border-gold-200 mb-3 inline-block">Recommandé</span>}
-                <div className="flex items-start justify-between mb-4">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
                   <div>
                     <h4 className="font-display text-xl text-vault-800">{p.name}</h4>
                     <ul className="space-y-1 mt-2">
@@ -74,7 +74,7 @@ export default async function BillingPage() {
                       ))}
                     </ul>
                   </div>
-                  <div className="text-right flex-shrink-0 ml-6">
+                  <div className="sm:text-right flex-shrink-0">
                     <p className="font-display text-3xl text-vault-900">{p.price}€<span className="text-vault-400 text-base">/mois</span></p>
                     <UpgradeButton plan={planKey} />
                   </div>

@@ -41,18 +41,18 @@ export default async function DashboardPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 sm:grid-cols-3 gap-3 md:gap-4">
         {[
           { label: 'Total', value: stats.total, icon: Archive },
           { label: 'Scellées', value: stats.sealed, icon: Clock },
           { label: 'Livrées', value: stats.delivered, icon: CheckCircle },
         ].map(({ label, value, icon: Icon }) => (
-          <div key={label} className="paper-card rounded-xl p-5">
+          <div key={label} className="paper-card rounded-xl p-4 md:p-5">
             <div className="flex items-center justify-between mb-2">
-              <p className="text-vault-500 text-sm">{label}</p>
+              <p className="text-vault-500 text-xs md:text-sm">{label}</p>
               <Icon size={16} className="text-vault-400" />
             </div>
-            <p className="font-display text-4xl text-vault-900">{value}</p>
+            <p className="font-display text-3xl md:text-4xl text-vault-900">{value}</p>
           </div>
         ))}
       </div>

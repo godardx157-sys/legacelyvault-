@@ -1,38 +1,54 @@
 'use client'
 import { useState } from 'react'
-import { Trash2 } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 
 export function DangerZone() {
   const [confirming, setConfirming] = useState(false)
-  const [deleting, setDeleting] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const handleDelete = async () => {
-    setDeleting(true)
-    await fetch('/api/user/delete', { method: 'DELETE' })
+    setLoading(true)
+    setError('')
+
+    const res = await fetch('/api/user/delete', { method: 'DELETE' })
+    if (!res.ok) {
+      const data = await res.json()
+      setError(data.error ?? 'Erreur lors de la suppression.')
+      setLoading(false)
+      return
+    }
+
     await signOut({ callbackUrl: '/' })
   }
 
   return (
-    <div className="paper-card rounded-2xl p-8 border border-red-200">
-      <h2 className="font-display text-2xl text-red-700 mb-4 flex items-center gap-2">
-        <Trash2 size={22} /> Zone dangereuse
-      </h2>
-      <p className="text-vault-500 text-sm mb-6">
-        La suppression de votre compte est définitive. Toutes vos capsules et données seront effacées sans possibilité de récupération.
-      </p>
+    <div className="space-y-4">
+      {error && <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">{error}</div>}
       {!confirming ? (
-        <button onClick={() => setConfirming(true)} className="px-6 py-3 rounded-xl text-red-600 border border-red-300 text-sm font-medium hover:bg-red-50 transition-all">
+        <button
+          onClick={() => setConfirming(true)}
+          className="px-6 py-2.5 rounded-xl border border-red-300 text-red-600 text-sm font-medium hover:bg-red-50 transition-colors"
+        >
           Supprimer mon compte
         </button>
       ) : (
-        <div className="space-y-3">
-          <p className="text-red-600 text-sm font-medium">Êtes-vous sûr ? Cette action est irréversible.</p>
+        <div className="p-4 rounded-xl border border-red-200 bg-red-50 space-y-3">
+          <p className="text-red-700 text-sm font-medium">
+            Cette action est irréversible. Toutes vos capsules et données seront supprimées définitivement.
+          </p>
           <div className="flex gap-3">
-            <button onClick={handleDelete} disabled={deleting} className="px-6 py-3 rounded-xl bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition-all disabled:opacity-50">
-              {deleting ? 'Suppression...' : 'Confirmer'}
+            <button
+              onClick={handleDelete}
+              disabled={loading}
+              className="px-5 py-2 rounded-xl bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition-colors disabled:opacity-60"
+            >
+              {loading ? 'Suppression...' : 'Oui, supprimer définitivement'}
             </button>
-            <button onClick={() => setConfirming(false)} className="px-6 py-3 rounded-xl text-vault-600 border border-vault-300 text-sm font-medium hover:bg-vault-50 transition-all">
+            <button
+              onClick={() => setConfirming(false)}
+              className="px-5 py-2 rounded-xl border border-vault-300 text-vault-600 text-sm hover:bg-vault-50 transition-colors"
+            >
               Annuler
             </button>
           </div>

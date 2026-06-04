@@ -15,6 +15,7 @@ interface SendCapsuleEmailParams {
   capsuleTitle: string
   message: string
   mediaUrls: string[]
+  capsuleId?: string
 }
 
 export async function sendCapsuleEmail(params: SendCapsuleEmailParams) {
@@ -47,6 +48,7 @@ export async function sendCapsuleEmail(params: SendCapsuleEmailParams) {
           <div style="background:#fff;border:1px solid #e8ddd0;border-radius:8px;padding:24px;margin:24px 0;color:#362413;font-size:16px;line-height:1.8;white-space:pre-wrap">${params.message}</div>
           ${mediaHtml}
           <hr style="border:none;border-top:1px solid #d4bc9f;margin:32px 0" />
+          ${params.capsuleId ? `<div style="text-align:center;margin:24px 0"><a href="${process.env.NEXT_PUBLIC_APP_URL}/capsule/${params.capsuleId}" style="background:#c9972a;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-size:15px">Voir la capsule en ligne →</a></div>` : ''}
           <p style="color:#967e6b;font-size:13px;text-align:center">Ce message a été créé avec amour sur <a href="${process.env.NEXT_PUBLIC_APP_URL}" style="color:#c9972a">LegacyVault</a>.<br/>Il vous était destiné depuis longtemps.</p>
         </div>
       </body>

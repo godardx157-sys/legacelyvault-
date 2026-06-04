@@ -25,7 +25,7 @@ export default async function CapsuleDetailPage({ params }: { params: { id: stri
   const sc = statusConfig[capsule.status]
 
   return (
-    <div className="max-w-2xl mx-auto animate-fade-in space-y-6">
+    <div className="max-w-2xl mx-auto px-0 md:px-0 animate-fade-in space-y-6">
       <div className="flex items-center gap-3">
         <Link href="/dashboard/capsules" className="text-vault-500 hover:text-vault-700 transition-colors">
           <ArrowLeft size={20} />
@@ -48,7 +48,7 @@ export default async function CapsuleDetailPage({ params }: { params: { id: stri
         {capsule.mediaUrls.length > 0 && (
           <div>
             <p className="text-vault-600 text-sm font-medium mb-3">📎 Médias attachés ({capsule.mediaUrls.length})</p>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {capsule.mediaUrls.map((url, i) => (
                 url.match(/\.(jpg|jpeg|png|gif|webp)/i)
                   ? <img key={i} src={url} alt="" className="w-full h-24 object-cover rounded-lg" />
@@ -59,7 +59,7 @@ export default async function CapsuleDetailPage({ params }: { params: { id: stri
         )}
 
         {/* Trigger */}
-        <div className="grid grid-cols-2 gap-4 text-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
           <div className="p-4 rounded-xl border border-vault-200 bg-white/40">
             <p className="text-vault-400 text-xs mb-1">Déclencheur</p>
             <p className="text-vault-700 font-medium">
@@ -78,11 +78,9 @@ export default async function CapsuleDetailPage({ params }: { params: { id: stri
           <p className="text-vault-600 text-sm font-medium mb-3">👥 Destinataires ({capsule.recipients.length})</p>
           <div className="space-y-2">
             {capsule.recipients.map(r => (
-              <div key={r.id} className="flex items-center justify-between p-3 rounded-xl border border-vault-200 bg-white/40">
-                <div>
-                  <p className="text-vault-800 text-sm font-medium">{r.name}</p>
-                  <p className="text-vault-400 text-xs">{r.email}{r.relation ? ` · ${r.relation}` : ''}</p>
-                </div>
+              <div key={r.id} className="p-3 rounded-xl border border-vault-200 bg-white/40">
+                <p className="text-vault-800 text-sm font-medium">{r.name}</p>
+                <p className="text-vault-400 text-xs break-all">{r.email}{r.relation ? ` · ${r.relation}` : ''}</p>
               </div>
             ))}
           </div>

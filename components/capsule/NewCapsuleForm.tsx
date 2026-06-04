@@ -132,7 +132,7 @@ export function NewCapsuleForm({ plan }: Props) {
                   <input type="file" multiple accept="image/*,video/*,audio/*,.pdf" className="hidden" onChange={handleUpload} />
                 </label>
                 {mediaUrls.length > 0 && (
-                  <div className="grid grid-cols-3 gap-2 mt-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3">
                     {mediaUrls.map((url, i) => (
                       <div key={i} className="relative group">
                         {url.match(/\.(jpg|jpeg|png|gif|webp)/i)
@@ -173,7 +173,7 @@ export function NewCapsuleForm({ plan }: Props) {
                     <Trash2 size={16} />
                   </button>
                 )}
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-vault-600 text-xs mb-1">Prénom & Nom *</label>
                     <input
@@ -224,7 +224,7 @@ export function NewCapsuleForm({ plan }: Props) {
           <h3 className="font-display text-2xl text-vault-800">⚙️ Déclencheur</h3>
           <p className="text-vault-500 text-sm">Quand votre capsule sera-t-elle envoyée ?</p>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <button
               onClick={() => setTriggerType('SCHEDULED')}
               className={`p-5 rounded-xl border-2 text-left transition-all ${triggerType === 'SCHEDULED' ? 'border-gold-500 bg-gold-50' : 'border-vault-200 hover:border-vault-300'}`}

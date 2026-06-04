@@ -1,3 +1,4 @@
+// app/(dashboard)/dashboard/settings/page.tsx
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
@@ -6,10 +7,15 @@ import { ProfileForm } from '@/components/settings/ProfileForm'
 import { PasswordForm } from '@/components/settings/PasswordForm'
 import { DangerZone } from '@/components/settings/DangerZone'
 import Link from 'next/link'
-import { CreditCard } from 'lucide-react'
+
+const PLAN_LABELS: Record<string, string> = {
+  FREE: 'Gratuit',
+  PRO: 'Pro',
+  ETERNAL: 'Éternel',
+}
 
 export default async function SettingsPage() {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions)!
   const [user, dms] = await Promise.all([
     prisma.user.findUnique({
       where: { id: session!.user.id },
@@ -18,38 +24,66 @@ export default async function SettingsPage() {
     prisma.deadManSwitch.findUnique({ where: { userId: session!.user.id } }),
   ])
 
-  const planLabel: Record<string, string> = {
-    FREE: 'Souvenir (Gratuit)',
-    PRO: 'Héritage — 9€/mois',
-    ETERNAL: 'Éternel — 19€/mois',
-  }
+  const isPro = (user?.plan ?? 'FREE') !== 'FREE'
 
   return (
     <div className="max-w-2xl mx-auto animate-fade-in space-y-6">
-      <ProfileForm name={user?.name ?? ''} email={user?.email ?? ''} />
 
+      {/* Profile */}
       <div className="paper-card rounded-2xl p-8">
-        <h2 className="font-display text-2xl text-vault-800 mb-4 flex items-center gap-2">
-          <CreditCard size={22} className="text-gold-500" /> Abonnement
-        </h2>
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-vault-500 text-sm mb-1">Plan actuel</p>
-            <p className="text-vault-800 font-medium text-lg">{planLabel[user?.plan ?? 'FREE']}</p>
-          </div>
-          {user?.plan === 'FREE' && (
-            <Link href="/pricing" className="px-5 py-2 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90" style={{ background: 'var(--gold)' }}>
-              Passer Pro
-            </Link>
-          )}
-        </div>
+        <h2 className="font-display text-2xl text-vault-800 mb-6">Profil</h2>
+        <ProfileForm initialName={user?.name ?? ''} email={user?.email ?? ''} />
       </div>
 
-      <DeadManSwitchSettings dms={dms} isPro={(user?.plan ?? 'FREE') !== 'FREE'} />
+      {/* Plan */}
+      <div className="paper-card rounded-2xl p-8">
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="font-display text-2xl text-vault-800">Abonnement</h2>
+          <span className="px-3 py-1 rounded-full text-sm font-medium border"
+            style={{
+              background: isPro ? 'rgba(201,151,42,0.12)' : 'rgba(0,0,0,0.04)',
+              borderColor: isPro ? 'rgba(201,151,42,0.4)' : 'rgba(0,0,0,0.1)',
+              color: isPro ? 'var(--gold)' : '#6b7280',
+            }}>
+            {PLAN_LABELS[user?.plan ?? 'FREE']}
+          </span>
+        </div>
+        <p className="text-vault-500 text-sm mb-5">
+          {isPro
+            ? 'Vous bénéficiez de toutes les fonctionnalités premium.'
+            : 'Passez au plan Pro pour débloquer le Dead Man\'s Switch, les capsules illimitées et plus.'}
+        </p>
+        {!isPro && (
+          <Link
+            href="/pricing"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90"
+            style={{ background: 'var(--gold)' }}
+          >
+            Passer au Pro
+          </Link>
+        )}
+      </div>
 
-      {user?.password && <PasswordForm />}
+      {/* Dead Man's Switch */}
+      <DeadManSwitchSettings dms={dms} isPro={isPro} />
 
-      <DangerZone />
+      {/* Password (only for email/password accounts) */}
+      {user?.password && (
+        <div className="paper-card rounded-2xl p-8">
+          <h2 className="font-display text-2xl text-vault-800 mb-6">Mot de passe</h2>
+          <PasswordForm />
+        </div>
+      )}
+
+      {/* Danger Zone */}
+      <div className="paper-card rounded-2xl p-8 border border-red-100">
+        <h2 className="font-display text-2xl text-red-700 mb-2">Zone de danger</h2>
+        <p className="text-vault-500 text-sm mb-5">
+          La suppression de votre compte est définitive et irréversible. Toutes vos capsules seront supprimées.
+        </p>
+        <DangerZone />
+      </div>
+
     </div>
   )
 }

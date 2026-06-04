@@ -1,6 +1,7 @@
 // app/page.tsx
 import Link from 'next/link'
 import { ArrowRight, Clock, Shield, Heart, Users, Lock, Zap } from 'lucide-react'
+import { MobileNavLanding } from '@/components/layout/MobileNavLanding'
 
 export default function LandingPage() {
   return (
@@ -19,6 +20,7 @@ export default function LandingPage() {
               Commencer
             </Link>
           </div>
+          <MobileNavLanding />
         </div>
       </nav>
 
@@ -29,12 +31,12 @@ export default function LandingPage() {
             <span className="w-2 h-2 rounded-full bg-gold-500 animate-pulse" />
             <span className="font-body">Plus de 10 000 capsules créées</span>
           </div>
-          <h1 className="font-display text-6xl md:text-8xl leading-none text-vault-900 mb-6">
+          <h1 className="font-display text-4xl sm:text-6xl md:text-8xl leading-none text-vault-900 mb-6">
             Vos mots,<br />
             <span className="shimmer-text">à travers le temps</span>
           </h1>
           <p className="text-xl text-vault-600 max-w-2xl mx-auto mb-10 font-body leading-relaxed">
-            Créez des capsules temporelles numériques — messages, photos, vidéos — à transmettre à vos proches
+            Créez des capsules temporelles numériques — messages, photos, vidéos — à transmettre à vos proches 
             à une date précise ou après votre décès. Votre héritage, préservé pour toujours.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -59,8 +61,8 @@ export default function LandingPage() {
             <p className="text-vault-500 text-sm mb-6">Destinataire : Emma • À ouvrir le 15 mars 2036</p>
             <div className="bg-white/60 rounded-xl p-6 border border-vault-200">
               <p className="text-vault-700 italic leading-relaxed">
-                &ldquo;Ma chérie, quand tu liras ces mots, tu auras 18 ans et moi... qui sait.
-                Voici tout ce que je voudrais que tu saches sur ce qui compte vraiment dans la vie...&rdquo;
+                "Ma chérie, quand tu liras ces mots, tu auras 18 ans et moi... qui sait. 
+                Voici tout ce que je voudrais que tu saches sur ce qui compte vraiment dans la vie..."
               </p>
             </div>
             <div className="mt-6 flex items-center gap-4">
@@ -76,7 +78,7 @@ export default function LandingPage() {
       <section className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <h2 className="font-display text-5xl text-center text-vault-900 mb-4">Comment ça fonctionne</h2>
-          <p className="text-center text-vault-500 mb-16 text-lg">Simple comme écrire une lettre. Puissant comme l&apos;éternité.</p>
+          <p className="text-center text-vault-500 mb-16 text-lg">Simple comme écrire une lettre. Puissant comme l'éternité.</p>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { icon: '✍️', step: '01', title: 'Créez votre capsule', desc: 'Rédigez votre message, ajoutez des photos et vidéos. Choisissez vos destinataires et la date de livraison.' },
@@ -94,19 +96,23 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Dead Man's Switch */}
+      {/* Dead Man's Switch explanation */}
       <section className="py-24 px-6" style={{ background: 'linear-gradient(to bottom, var(--bg-paper), #f0e8dc)' }}>
         <div className="max-w-4xl mx-auto text-center">
           <div className="text-5xl mb-6">⚙️</div>
-          <h2 className="font-display text-5xl text-vault-900 mb-4">Dead Man&apos;s Switch</h2>
+          <h2 className="font-display text-5xl text-vault-900 mb-4">Dead Man's Switch</h2>
           <p className="text-vault-600 text-xl mb-8 leading-relaxed">
-            La fonctionnalité la plus puissante que personne n&apos;avait encore construite simplement.
-            Si vous ne vous connectez pas pendant X jours, LegacyVault envoie automatiquement
+            La fonctionnalité la plus puissante que personne n'avait encore construite simplement.
+            Si vous ne vous connectez pas pendant X jours, LegacyVault envoie automatiquement 
             vos capsules à vos proches. Aucune intervention requise.
           </p>
           <div className="grid sm:grid-cols-3 gap-6 text-left">
-            {[{ t: 'J-30', d: 'Rappel par email' }, { t: 'J-7', d: '3 rappels urgents' }, { t: 'J-0', d: 'Livraison automatique' }].map(s => (
-              <div key={s.t} className="paper-card rounded-xl p-6">
+            {[
+              { t: 'J-30', d: 'Rappel par email' },
+              { t: 'J-7', d: '3 rappels urgents' },
+              { t: 'J-0', d: 'Livraison automatique' },
+            ].map(s => (
+              <div key={s.t} className="paper-card rounded-xl p-4 md:p-6">
                 <p className="text-gold-600 font-display text-3xl mb-1">{s.t}</p>
                 <p className="text-vault-600">{s.d}</p>
               </div>
@@ -157,24 +163,22 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="border-t border-vault-200 py-12 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">🏺</span>
-              <span className="font-display text-xl text-vault-700">LegacyVault</span>
-            </div>
-            <div className="flex flex-wrap justify-center gap-6 text-vault-500 text-base">
-              <Link href="/pricing" className="hover:text-vault-700 transition-colors">Tarifs</Link>
-              <Link href="/login" className="hover:text-vault-700 transition-colors">Connexion</Link>
-              <Link href="/register" className="hover:text-vault-700 transition-colors">S&apos;inscrire</Link>
-            </div>
-            <p className="text-vault-400 text-sm">© 2024 LegacyVault. Fait avec ❤️</p>
+        <div className="max-w-6xl mx-auto flex flex-col items-center gap-6">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">🏺</span>
+            <span className="font-display text-xl text-vault-700">LegacyVault</span>
           </div>
-          <div className="border-t border-vault-100 pt-6 flex flex-wrap justify-center gap-6 text-vault-400 text-sm">
+          <div className="flex flex-wrap justify-center gap-6 text-vault-500 text-base">
+            <Link href="/pricing" className="hover:text-vault-700 transition-colors">Tarifs</Link>
+            <Link href="/login" className="hover:text-vault-700 transition-colors">Connexion</Link>
+            <Link href="/register" className="hover:text-vault-700 transition-colors">S'inscrire</Link>
+          </div>
+          <div className="flex flex-wrap justify-center gap-5 text-sm text-vault-400">
             <Link href="/privacy" className="hover:text-vault-600 transition-colors">Politique de confidentialité</Link>
-            <Link href="/terms" className="hover:text-vault-600 transition-colors">Conditions d&apos;utilisation</Link>
+            <Link href="/terms" className="hover:text-vault-600 transition-colors">Conditions d'utilisation</Link>
             <Link href="/cookies" className="hover:text-vault-600 transition-colors">Politique de cookies</Link>
           </div>
+          <p className="text-vault-400 text-sm">© 2024 LegacyVault. Tous droits réservés.</p>
         </div>
       </footer>
     </div>
