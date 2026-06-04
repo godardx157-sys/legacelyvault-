@@ -15,18 +15,6 @@ export const authOptions: NextAuthOptions = {
   jwt: {
     maxAge: 30 * 24 * 60 * 60, // 30 jours
   },
-  cookies: {
-    sessionToken: {
-      name: process.env.NODE_ENV === 'production' ? '__Secure-next-auth.session-token' : 'next-auth.session-token',
-      options: {
-        httpOnly: true,
-        sameSite: 'lax' as const,
-        path: '/',
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 30 * 24 * 60 * 60, // 30 jours — cookie persistant
-      },
-    },
-  },
   pages: {
     signIn: '/login',
     error: '/login',
@@ -48,7 +36,13 @@ export const authOptions: NextAuthOptions = {
         if (!user || !user.password) return null
         const valid = await bcrypt.compare(credentials.password, user.password)
         if (!valid) return null
-        return { id: user.id, email: user.email, name: user.name, image: user.image }
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          image: user.image,
+          rememberMe: credentials.rememberMe === '1',
+        }
       },
     }),
   ],
@@ -56,8 +50,13 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id
+        token.rememberMe = (user as any).rememberMe ?? true
         const dbUser = await prisma.user.findUnique({ where: { id: user.id } })
         if (dbUser) token.plan = dbUser.plan
+        // Si "se souvenir de moi" décoché : session expire dans 24h
+        if (!token.rememberMe) {
+          token.exp = Math.floor(Date.now() / 1000) + 24 * 60 * 60
+        }
       }
       return token
     },

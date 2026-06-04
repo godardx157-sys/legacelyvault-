@@ -19,6 +19,7 @@ export default function LoginPage() {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [rememberMe, setRememberMe] = useState(true)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -26,7 +27,12 @@ export default function LoginPage() {
     e.preventDefault()
     setLoading(true)
     setError('')
-    const res = await signIn('credentials', { email, password, redirect: false })
+    const res = await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+      rememberMe: rememberMe ? '1' : '0',
+    })
     setLoading(false)
     if (res?.error) {
       setError('Email ou mot de passe incorrect.')
@@ -84,6 +90,28 @@ export default function LoginPage() {
                 placeholder="••••••••"
               />
             </div>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setRememberMe(!rememberMe)}
+                className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 border-2 transition-all ${rememberMe ? 'border-gold-500' : 'border-vault-300 bg-white'}`}
+                style={rememberMe ? { background: 'var(--gold)', borderColor: 'var(--gold)' } : {}}
+                aria-label="Se souvenir de moi"
+              >
+                {rememberMe && (
+                  <svg width="11" height="8" viewBox="0 0 11 8" fill="none">
+                    <path d="M1 4L4 7L10 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                )}
+              </button>
+              <span
+                className="text-vault-600 text-sm cursor-pointer select-none"
+                onClick={() => setRememberMe(!rememberMe)}
+              >
+                Se souvenir de moi <span className="text-vault-400">(30 jours)</span>
+              </span>
+            </div>
+
             <button
               type="submit" disabled={loading}
               className="w-full py-3 rounded-xl text-white font-medium text-base transition-all hover:opacity-90 disabled:opacity-60"
