@@ -26,6 +26,7 @@ export async function GET(req: Request) {
 
   for (const capsule of scheduled) {
     try {
+      await prisma.capsule.update({ where: { id: capsule.id }, data: { status: 'DELIVERED', sentAt: now } })
       for (const recipient of capsule.recipients) {
         await sendCapsuleEmail({
           to: recipient.email,
@@ -34,12 +35,9 @@ export async function GET(req: Request) {
           capsuleTitle: capsule.title,
           message: capsule.message,
           mediaUrls: capsule.mediaUrls,
+          capsuleId: capsule.id,
         })
       }
-      await prisma.capsule.update({
-        where: { id: capsule.id },
-        data: { status: 'DELIVERED', sentAt: now },
-      })
       delivered++
     } catch (e) {
       console.error(`Failed to deliver capsule ${capsule.id}:`, e)
@@ -82,6 +80,7 @@ export async function GET(req: Request) {
 
       for (const capsule of capsules) {
         try {
+          await prisma.capsule.update({ where: { id: capsule.id }, data: { status: 'DELIVERED', sentAt: now } })
           for (const recipient of capsule.recipients) {
             await sendCapsuleEmail({
               to: recipient.email,
@@ -90,9 +89,9 @@ export async function GET(req: Request) {
               capsuleTitle: capsule.title,
               message: capsule.message,
               mediaUrls: capsule.mediaUrls,
+              capsuleId: capsule.id,
             })
           }
-          await prisma.capsule.update({ where: { id: capsule.id }, data: { status: 'DELIVERED', sentAt: now } })
           delivered++
         } catch (e) {
           console.error(e)

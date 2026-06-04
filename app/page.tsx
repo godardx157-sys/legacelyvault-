@@ -1,6 +1,7 @@
 // app/page.tsx
 import Link from 'next/link'
 import { ArrowRight, Clock, Shield, Heart, Users, Lock, Zap } from 'lucide-react'
+import { MobileNavLanding } from '@/components/layout/MobileNavLanding'
 
 export default function LandingPage() {
   return (
@@ -19,6 +20,7 @@ export default function LandingPage() {
               Commencer
             </Link>
           </div>
+          <MobileNavLanding />
         </div>
       </nav>
 
@@ -29,7 +31,7 @@ export default function LandingPage() {
             <span className="w-2 h-2 rounded-full bg-gold-500 animate-pulse" />
             <span className="font-body">Plus de 10 000 capsules créées</span>
           </div>
-          <h1 className="font-display text-6xl md:text-8xl leading-none text-vault-900 mb-6">
+          <h1 className="font-display text-4xl sm:text-6xl md:text-8xl leading-none text-vault-900 mb-6">
             Vos mots,<br />
             <span className="shimmer-text">à travers le temps</span>
           </h1>
@@ -110,7 +112,7 @@ export default function LandingPage() {
               { t: 'J-7', d: '3 rappels urgents' },
               { t: 'J-0', d: 'Livraison automatique' },
             ].map(s => (
-              <div key={s.t} className="paper-card rounded-xl p-6">
+              <div key={s.t} className="paper-card rounded-xl p-4 md:p-6">
                 <p className="text-gold-600 font-display text-3xl mb-1">{s.t}</p>
                 <p className="text-vault-600">{s.d}</p>
               </div>
