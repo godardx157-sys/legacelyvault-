@@ -1,4 +1,6 @@
 // app/api/stripe/webhook/route.ts
+export const dynamic = 'force-dynamic'
+
 import { NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
 import { prisma } from '@/lib/prisma'
