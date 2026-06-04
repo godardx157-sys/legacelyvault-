@@ -161,17 +161,22 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="border-t border-vault-200 py-12 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="max-w-6xl mx-auto flex flex-col items-center gap-6">
           <div className="flex items-center gap-2">
             <span className="text-2xl">🏺</span>
             <span className="font-display text-xl text-vault-700">LegacyVault</span>
           </div>
-          <div className="flex gap-6 text-vault-500 text-base">
+          <div className="flex flex-wrap justify-center gap-6 text-vault-500 text-base">
             <Link href="/pricing" className="hover:text-vault-700 transition-colors">Tarifs</Link>
             <Link href="/login" className="hover:text-vault-700 transition-colors">Connexion</Link>
             <Link href="/register" className="hover:text-vault-700 transition-colors">S'inscrire</Link>
           </div>
-          <p className="text-vault-400 text-sm">© 2024 LegacyVault. Fait avec ❤️</p>
+          <div className="flex flex-wrap justify-center gap-5 text-sm text-vault-400">
+            <Link href="/privacy" className="hover:text-vault-600 transition-colors">Politique de confidentialité</Link>
+            <Link href="/terms" className="hover:text-vault-600 transition-colors">Conditions d'utilisation</Link>
+            <Link href="/cookies" className="hover:text-vault-600 transition-colors">Politique de cookies</Link>
+          </div>
+          <p className="text-vault-400 text-sm">© 2024 LegacyVault. Tous droits réservés.</p>
         </div>
       </footer>
     </div>
