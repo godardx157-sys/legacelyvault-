@@ -4,6 +4,7 @@ import { Suspense, useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 
 function AuthError() {
   const params = useSearchParams()
@@ -45,8 +46,8 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center px-4" style={{ background: 'var(--bg-paper)' }}>
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <span className="text-4xl">🏺</span>
+          <Link href="/" className="inline-flex items-center mb-6">
+            <Image src="/logo.svg" alt="LegacyVault" width={200} height={51} priority />
           </Link>
           <h1 className="font-display text-4xl text-vault-900 mb-2">Bon retour</h1>
           <p className="text-vault-500">Connectez-vous à votre coffre</p>

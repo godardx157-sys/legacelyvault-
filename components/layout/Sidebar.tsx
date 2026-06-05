@@ -1,6 +1,7 @@
 // components/layout/Sidebar.tsx
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react'
 import { LayoutDashboard, Archive, Settings, CreditCard, LogOut, Plus } from 'lucide-react'
@@ -23,9 +24,10 @@ export function Sidebar({ user }: Props) {
   return (
     <aside className="hidden md:flex flex-col w-64 border-r border-vault-200" style={{ background: 'var(--bg-paper)' }}>
       {/* Logo */}
-      <div className="flex items-center gap-2 px-6 py-5 border-b border-vault-200">
-        <span className="text-2xl">🏺</span>
-        <span className="font-display text-xl text-vault-800">LegacyVault</span>
+      <div className="flex items-center px-4 py-4 border-b border-vault-200">
+        <Link href="/dashboard">
+          <Image src="/logo.svg" alt="LegacyVault" width={170} height={44} priority />
+        </Link>
       </div>
 
       {/* New capsule CTA */}

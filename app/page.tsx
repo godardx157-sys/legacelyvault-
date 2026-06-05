@@ -1,5 +1,6 @@
 // app/page.tsx
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowRight, Clock, Shield, Heart, Users, Lock, Zap } from 'lucide-react'
 import { MobileNavLanding } from '@/components/layout/MobileNavLanding'
 
@@ -10,9 +11,8 @@ export default function LandingPage() {
       {/* ── Navigation ─────────────────────────────────── */}
       <nav className="fixed top-0 w-full z-50 border-b border-vault-200/60 backdrop-blur-sm" style={{ background: 'rgba(247,242,233,0.92)' }}>
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5">
-            <span className="text-2xl">🏺</span>
-            <span className="font-display text-xl text-vault-800 italic">LegacyVault</span>
+          <Link href="/" className="flex items-center">
+            <Image src="/logo.svg" alt="LegacyVault" width={180} height={46} priority />
           </Link>
           <div className="hidden md:flex items-center gap-8">
             <Link href="/pricing" className="text-vault-600 hover:text-vault-800 transition-colors text-base">Tarifs</Link>
@@ -206,9 +206,8 @@ export default function LandingPage() {
       {/* ── Footer ───────────────────────────────────────── */}
       <footer className="border-t border-vault-200 py-12 px-6" style={{ background: 'var(--bg-aged)' }}>
         <div className="max-w-6xl mx-auto flex flex-col items-center gap-6">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">🏺</span>
-            <span className="font-display text-xl text-vault-700 italic">LegacyVault</span>
+          <div className="flex items-center">
+            <Image src="/logo.svg" alt="LegacyVault" width={160} height={41} />
           </div>
           <div className="flex flex-wrap justify-center gap-6 text-vault-500 text-base font-body">
             <Link href="/pricing" className="hover:text-vault-700 transition-colors">Tarifs</Link>

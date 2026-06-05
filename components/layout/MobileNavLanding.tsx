@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Menu, X } from 'lucide-react'
 
 export function MobileNavLanding() {
@@ -20,11 +21,8 @@ export function MobileNavLanding() {
         <div className="fixed inset-0 z-50 md:hidden">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setOpen(false)} />
           <div className="absolute right-0 top-0 h-full w-64 flex flex-col shadow-2xl" style={{ background: 'var(--bg-paper)' }}>
-            <div className="flex items-center justify-between px-6 py-5 border-b border-vault-200">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">🏺</span>
-                <span className="font-display text-xl text-vault-800">LegacyVault</span>
-              </div>
+            <div className="flex items-center justify-between px-4 py-4 border-b border-vault-200">
+              <Image src="/logo.svg" alt="LegacyVault" width={150} height={38} />
               <button onClick={() => setOpen(false)} className="text-vault-400 hover:text-vault-700">
                 <X size={22} />
               </button>
