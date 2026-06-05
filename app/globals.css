@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -8,14 +8,17 @@
   --font-display: 'Cormorant Garamond', serif;
   --font-body: 'EB Garamond', serif;
   --font-mono: 'JetBrains Mono', monospace;
-  --bg-paper: #faf7f2;
-  --bg-dark: #1c120a;
-  --gold: #c9972a;
-  --ink: #2c1e17;
+  --bg-paper: #f7f2e9;
+  --bg-aged:  #ede4d3;
+  --bg-dark:  #1c120a;
+  --gold:     #b8861f;
+  --gold-light: #d4a84b;
+  --ink:      #2c1e17;
+  --seal-red: #8b2020;
+  --wax:      #9b1c1c;
 }
 
 * { box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
 
 body {
@@ -24,22 +27,26 @@ body {
   font-family: var(--font-body);
   font-size: 18px;
   line-height: 1.7;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
 }
 
-/* Scrollbar */
+/* ─── Scrollbar ──────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #f5f0eb; }
-::-webkit-scrollbar-thumb { background: #be996d; border-radius: 3px; }
+::-webkit-scrollbar-track { background: #ede4d3; }
+::-webkit-scrollbar-thumb { background: #b8861f; border-radius: 3px; }
+::selection { background: #d4a84b55; color: #1c120a; }
 
-/* Selection */
-::selection { background: #e9be5a; color: #1c120a; }
+/* ─── Typography ─────────────────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
 
-/* Typography */
-h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.02em; }
-
+/* ─── Shimmer / Gold text ────────────────────────────── */
 .shimmer-text {
-  background: linear-gradient(90deg, #c9972a 0%, #f5d78e 40%, #c9972a 60%, #e9be5a 100%);
+  background: linear-gradient(90deg, #b8861f 0%, #f0cd7a 35%, #b8861f 55%, #d4a84b 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -47,13 +54,195 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; letter-spac
   animation: shimmer 4s linear infinite;
 }
 
+/* ─── Paper card (base) ──────────────────────────────── */
 .paper-card {
   background: var(--bg-paper);
-  border: 1px solid #d4bc9f;
-  box-shadow: 0 2px 8px rgba(54,36,19,0.06), inset 0 1px 0 rgba(255,255,255,0.6);
+  border: 1px solid #cdb99a;
+  box-shadow:
+    0 2px 12px rgba(54,36,19,0.08),
+    0 1px 2px rgba(54,36,19,0.04),
+    inset 0 1px 0 rgba(255,255,255,0.7);
 }
 
+/* ─── Letter card ────────────────────────────────────── */
+/* Looks like a real folded letter */
+.letter-card {
+  background: var(--bg-paper);
+  border: 1px solid #cdb99a;
+  box-shadow:
+    0 4px 20px rgba(54,36,19,0.12),
+    0 1px 3px rgba(54,36,19,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+  position: relative;
+}
+/* Top-right folded corner */
+.letter-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 28px 28px 0;
+  border-color: transparent #cdb99a transparent transparent;
+  opacity: 0.5;
+}
+
+/* ─── Envelope card ──────────────────────────────────── */
+/* V-flap on top like an envelope */
+.envelope-card {
+  background: var(--bg-paper);
+  border: 1px solid #cdb99a;
+  box-shadow: 0 4px 20px rgba(54,36,19,0.1), inset 0 1px 0 rgba(255,255,255,0.7);
+  position: relative;
+  overflow: hidden;
+}
+.envelope-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    #b8861f 0px, #b8861f 8px,
+    transparent 8px, transparent 14px
+  );
+  opacity: 0.4;
+}
+
+/* ─── Stamp border ───────────────────────────────────── */
+/* Perforated edge like a postage stamp */
+.stamp {
+  position: relative;
+  background: var(--bg-paper);
+  box-shadow:
+    0 0 0 2px var(--bg-paper),
+    0 0 0 4px #cdb99a,
+    0 4px 16px rgba(54,36,19,0.1);
+  border-radius: 1px;
+  background-image: radial-gradient(circle, #cdb99a 1.5px, transparent 1.5px);
+  background-size: 10px 10px;
+  background-position: -5px -5px;
+}
+.stamp-inner {
+  background: var(--bg-paper);
+  position: relative;
+  z-index: 1;
+  margin: 8px;
+  padding: 16px;
+  border: 1px solid #e0ceaf;
+}
+
+/* ─── Wax seal ───────────────────────────────────────── */
 .wax-seal {
-  background: radial-gradient(circle at 40% 35%, #e9be5a, #a07420);
-  box-shadow: 0 4px 12px rgba(160,116,32,0.4), inset 0 1px 2px rgba(255,255,255,0.3);
+  background: radial-gradient(circle at 38% 32%, #c0392b, #7b1a1a);
+  box-shadow:
+    0 4px 16px rgba(123,26,26,0.5),
+    0 2px 4px rgba(0,0,0,0.2),
+    inset 0 1px 3px rgba(255,255,255,0.15),
+    inset 0 -1px 3px rgba(0,0,0,0.2);
+}
+
+/* ─── Postmark circle ────────────────────────────────── */
+.postmark {
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  transform: rotate(-12deg);
+  display: inline-block;
+  line-height: 1.3;
+}
+
+/* ─── Ink rule ───────────────────────────────────────── */
+/* Decorative divider like a quill stroke */
+.ink-rule {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #cdb99a 20%, #b8861f 50%, #cdb99a 80%, transparent);
+  margin: 24px 0;
+  opacity: 0.6;
+}
+
+/* ─── Aged tag ───────────────────────────────────────── */
+/* Like a luggage tag */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px 3px 8px;
+  background: var(--bg-aged);
+  border: 1px solid #cdb99a;
+  border-radius: 2px 12px 12px 2px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: #6e4928;
+  position: relative;
+}
+.tag::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid #b8861f;
+  background: var(--bg-paper);
+  flex-shrink: 0;
+}
+
+/* ─── Animations ─────────────────────────────────────── */
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position:  200% center; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes seal-drop {
+  0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+  70%  { transform: scale(1.1) rotate(5deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes glow {
+  0%,100% { box-shadow: 0 0 20px rgba(184,134,31,0.3); }
+  50%      { box-shadow: 0 0 40px rgba(184,134,31,0.6); }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.8; }
+}
+
+.animate-fade-in   { animation: fade-in 0.5s ease-out forwards; }
+.animate-seal-drop { animation: seal-drop 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+.animate-glow      { animation: glow 3s ease-in-out infinite; }
+
+/* ─── Capsule status colors ──────────────────────────── */
+.status-sealed    { color: #b8861f; background: #f7f0e0; border-color: #d4a84b; }
+.status-delivered { color: #2d6a4f; background: #e8f5ee; border-color: #74c69d; }
+.status-failed    { color: #8b2020; background: #fdf0f0; border-color: #e07070; }
+.status-draft     { color: #5e4537; background: #f0ebe3; border-color: #cdb99a; }
+
+/* ─── Inputs ─────────────────────────────────────────── */
+input, textarea, select {
+  font-family: var(--font-body) !important;
+}
+
+/* ─── Link underline ─────────────────────────────────── */
+.vault-link {
+  color: var(--gold);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+.vault-link:hover {
+  border-bottom-color: var(--gold);
 }

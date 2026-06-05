@@ -15,10 +15,10 @@ export default async function CapsulesPage() {
   })
 
   const statusConfig = {
-    DRAFT:     { label: 'Brouillon', emoji: '✏️', color: 'text-vault-500 bg-vault-100 border-vault-200' },
-    SEALED:    { label: 'Scellée',   emoji: '🔒', color: 'text-gold-700 bg-gold-50 border-gold-200' },
-    DELIVERED: { label: 'Livrée',    emoji: '💌', color: 'text-green-700 bg-green-50 border-green-200' },
-    FAILED:    { label: 'Échec',     emoji: '❌', color: 'text-red-700 bg-red-50 border-red-200' },
+    DRAFT:     { label: 'Brouillon', emoji: '✏️', cls: 'status-draft' },
+    SEALED:    { label: 'Scellée',   emoji: '🔒', cls: 'status-sealed' },
+    DELIVERED: { label: 'Livrée',    emoji: '💌', cls: 'status-delivered' },
+    FAILED:    { label: 'Échec',     emoji: '❌', cls: 'status-failed' },
   }
 
   return (
@@ -35,7 +35,7 @@ export default async function CapsulesPage() {
       </div>
 
       {capsules.length === 0 ? (
-        <div className="paper-card rounded-2xl p-16 text-center">
+        <div className="letter-card rounded-sm p-16 text-center">
           <div className="text-6xl mb-4">🏺</div>
           <p className="font-display text-2xl text-vault-700 mb-2">Aucune capsule encore</p>
           <p className="text-vault-500 mb-8">Commencez à préserver vos souvenirs et messages pour l'avenir.</p>
@@ -51,29 +51,25 @@ export default async function CapsulesPage() {
               <Link
                 key={c.id}
                 href={`/dashboard/capsules/${c.id}`}
-                className="paper-card rounded-xl p-6 flex items-start justify-between hover:shadow-md transition-shadow group"
+                className="letter-card rounded-sm p-6 flex items-start justify-between hover:shadow-lg transition-shadow group block"
               >
                 <div className="flex gap-4">
                   <span className="text-3xl mt-0.5">{sc.emoji}</span>
                   <div>
-                    <h3 className="font-display text-xl text-vault-800 group-hover:text-vault-900 mb-1">{c.title}</h3>
-                    <p className="text-vault-500 text-sm line-clamp-1 mb-3">{c.message.slice(0, 100)}...</p>
-                    <div className="flex flex-wrap gap-2 text-xs">
-                      <span className="px-2 py-0.5 rounded-full border border-vault-200 text-vault-500">
-                        👥 {c.recipients.length} destinataire{c.recipients.length > 1 ? 's' : ''}
-                      </span>
-                      <span className="px-2 py-0.5 rounded-full border border-vault-200 text-vault-500">
+                    <h3 className="font-display text-xl italic text-vault-800 group-hover:text-vault-900 mb-1">{c.title}</h3>
+                    <p className="text-vault-500 text-sm line-clamp-1 mb-3 font-body">{c.message.slice(0, 100)}...</p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="tag">👥 {c.recipients.length} destinataire{c.recipients.length > 1 ? 's' : ''}</span>
+                      <span className="tag">
                         {c.triggerType === 'DEADMAN' ? '⚙️ Dead Man\'s Switch' : `📅 ${c.deliverAt ? formatDate(c.deliverAt) : 'Date non définie'}`}
                       </span>
                       {c.mediaUrls.length > 0 && (
-                        <span className="px-2 py-0.5 rounded-full border border-vault-200 text-vault-500">
-                          📎 {c.mediaUrls.length} média{c.mediaUrls.length > 1 ? 's' : ''}
-                        </span>
+                        <span className="tag">📎 {c.mediaUrls.length} média{c.mediaUrls.length > 1 ? 's' : ''}</span>
                       )}
                     </div>
                   </div>
                 </div>
-                <span className={`text-xs px-3 py-1 rounded-full border flex-shrink-0 ${sc.color}`}>
+                <span className={`text-xs px-3 py-1 rounded border flex-shrink-0 ${sc.cls}`}>
                   {sc.label}
                 </span>
               </Link>
