@@ -47,7 +47,7 @@ export default async function DashboardPage() {
           { label: 'Scellées', value: stats.sealed, icon: Clock },
           { label: 'Livrées', value: stats.delivered, icon: CheckCircle },
         ].map(({ label, value, icon: Icon }) => (
-          <div key={label} className="paper-card rounded-xl p-4 md:p-5">
+          <div key={label} className="envelope-card rounded-sm p-4 md:p-5">
             <div className="flex items-center justify-between mb-2">
               <p className="text-vault-500 text-xs md:text-sm">{label}</p>
               <Icon size={16} className="text-vault-400" />
@@ -85,7 +85,7 @@ export default async function DashboardPage() {
         </div>
 
         {capsules.length === 0 ? (
-          <div className="paper-card rounded-xl p-12 text-center">
+          <div className="letter-card rounded-sm p-12 text-center">
             <div className="text-5xl mb-4">🏺</div>
             <p className="font-display text-2xl text-vault-700 mb-2">Votre coffre est vide</p>
             <p className="text-vault-500 mb-6">Créez votre première capsule temporelle</p>
@@ -101,19 +101,19 @@ export default async function DashboardPage() {
           <div className="space-y-3">
             {capsules.map(c => (
               <Link key={c.id} href={`/dashboard/capsules/${c.id}`}
-                className="paper-card rounded-xl p-5 flex items-center justify-between hover:shadow-md transition-shadow group block"
+                className="letter-card rounded-sm p-5 flex items-center justify-between hover:shadow-lg transition-shadow group block"
               >
                 <div className="flex items-center gap-4">
                   <span className="text-2xl">{statusIcon[c.status]}</span>
                   <div>
-                    <p className="font-medium text-vault-800 group-hover:text-vault-900">{c.title}</p>
-                    <p className="text-vault-400 text-sm">
+                    <p className="font-display text-lg italic text-vault-800 group-hover:text-vault-900">{c.title}</p>
+                    <p className="text-vault-400 text-sm font-body">
                       {c.recipients.length} destinataire{c.recipients.length > 1 ? 's' : ''} •{' '}
                       {c.deliverAt ? `Livraison le ${formatDate(c.deliverAt)}` : 'Dead Man\'s Switch'}
                     </p>
                   </div>
                 </div>
-                <span className="text-xs px-2 py-1 rounded-full border border-vault-200 text-vault-500">
+                <span className={`text-xs px-2 py-1 rounded border status-${c.status.toLowerCase()}`}>
                   {statusLabel[c.status]}
                 </span>
               </Link>
